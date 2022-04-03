@@ -12,33 +12,35 @@ const url  =
 
 mongoose.connect(url);
 
-
-const noteSchema = new mongoose.Schema({
-    content: String,
-    date: Date,
-    important: Boolean,
+const personSchema = new mongoose.Schema({
+    id: Number,
+    name: String,
+    number: String,
 })
 
-const Note = mongoose.model('Note', noteSchema)
+const Person = mongoose.model('Person', personSchema)
 
-
-const note = new Note({
-    content: 'JavaScript is the easiest',
-    date: new Date(),
-    important: true,
-})
-
-
-note.save().then(result => {
-    console.log(result)
-    console.log('note saved!')
-    mongoose.connection.close()
-})
-
-/*
-Note.find({}).then(result => {
-    result.forEach(note => {
-        console.log(note)
+if(process.argv.length === 3){
+    console.log('phonebook:')
+    Person.find({}).then(result => {
+        result.forEach(person => {
+            console.log(person.name + " " + person.number)
+            mongoose.connection.close()
+        })
     })
-    mongoose.connection.close()
-})*/
+}
+
+if(process.argv.length === 5){
+
+    const person = new Person({
+        id: Math.floor(Math.random() * 1000),
+        name: process.argv[3],
+        number: process.argv[4]
+    })
+
+
+    person.save().then(result => {
+        console.log(`added ${result.name} number ${result.number} to phonebook`)
+        mongoose.connection.close()
+    })
+}
