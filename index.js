@@ -20,7 +20,7 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-  response.send(`Phonebook has info of ${persons.length} people</br>${Date()}`)
+  response.send(`Phonebook has info of ${ persons.length } people</br>${Date()}`)
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -37,7 +37,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then( result => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -80,7 +80,7 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
   if (error.name === 'CastError'){
-    return response.status(400).send({ error: 'malformatted id'})
+    return response.status(400).send({ error: 'malformatted id' } )
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
